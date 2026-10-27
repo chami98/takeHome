@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Payslip } from './Payslip';
 import { AmountField, Donut, Legend, RangeField, Segmented, Stat, Switch, type Slice } from './ui';
 import { BANDS, RELIEF, bonusTax, fmt, gratuity, GRATUITY_MIN_YEARS, marginalRate, netToGross, payslip } from '@/lib/calc';
 
@@ -128,24 +129,7 @@ export default function Calculator() {
               <Stat label="Employer ETF each month (3%)" value={rs(p.etfEmployer)} tone="gold" />
             </div>
             <BandScale taxable={p.gross} />
-            <details className="acc printable" open>
-              <summary>Full payslip</summary>
-              <table>
-                <tbody>
-                  <tr><td>Basic salary</td><td>{fmt(p.basic)}</td></tr>
-                  <tr><td>Allowances</td><td>{fmt(p.allowances)}</td></tr>
-                  <tr className="tot"><td>Gross earnings</td><td>{fmt(p.gross)}</td></tr>
-                  <tr><td>Income tax (APIT)</td><td>{fmt(p.apit)}</td></tr>
-                  <tr><td>Employee EPF at 8%</td><td>{fmt(p.epfEmployee)}</td></tr>
-                  <tr><td>Stamp duty</td><td>{fmt(p.stamp)}</td></tr>
-                  <tr><td>Other deductions</td><td>{fmt(p.otherDeductions)}</td></tr>
-                  <tr className="tot"><td>Total deductions</td><td>{fmt(p.totalDeductions)}</td></tr>
-                  <tr className="net"><td>Take home pay</td><td>{fmt(p.net)}</td></tr>
-                  <tr className="emp"><td>Employer EPF at 12%</td><td>{fmt(p.epfEmployer)}</td></tr>
-                  <tr className="emp"><td>Employer ETF at 3%</td><td>{fmt(p.etfEmployer)}</td></tr>
-                </tbody>
-              </table>
-            </details>
+            <Payslip p={p} />
             <button className="btn-line" onClick={() => window.print()}>Print payslip</button>
           </div>
         )}

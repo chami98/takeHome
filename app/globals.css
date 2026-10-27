@@ -103,9 +103,27 @@ h2 { font:500 clamp(1.6rem,3.5vw,2.1rem)/1.15 var(--serif); margin:0 0 12px; let
 footer { text-align:center; color:var(--mut); font-size:.875rem; padding:24px; border-top:1px solid var(--line); }
 
 @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto;} * { transition:none !important; } }
+/* payslip */
+.slip { border:1px solid var(--line); border-radius:var(--r); background:var(--sheet); padding:22px; margin-bottom:14px; display:grid; gap:16px; }
+.slip-head { display:flex; justify-content:space-between; align-items:flex-end; gap:16px; padding-bottom:16px; border-bottom:1px solid var(--line); }
+.slip-brand { font:600 .8125rem var(--sans); letter-spacing:.08em; text-transform:uppercase; color:var(--sapphire); }
+.slip-head h3 { margin:2px 0 0; font:500 1.75rem var(--serif); letter-spacing:-.01em; }
+.slip-period { text-align:right; } .slip-period span { display:block; font-size:.8125rem; color:var(--mut); } .slip-period b { font-weight:600; }
+.slip-net { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:18px 20px; border-radius:12px; background:var(--navy); color:#fff; }
+.slip-net span { display:block; font-size:.8125rem; color:#C9D3FF; } .slip-net b { display:block; font:600 1.75rem var(--sans); font-variant-numeric:tabular-nums; }
+.slip-kept { padding:6px 12px; border-radius:99px; background:rgba(18,165,139,.22); color:#7FE3CD; font-size:.8125rem; font-weight:600; white-space:nowrap; }
+.slip-cols { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+@media (max-width:560px){ .slip-cols { grid-template-columns:1fr; } .slip-net b { font-size:1.4rem; } }
+.slip-card { padding:16px; border-radius:12px; background:var(--paper); }
+.slip-card h4 { display:flex; align-items:center; gap:8px; margin:0 0 10px; font:600 .9375rem var(--sans); }
+.slip-card h4 i { width:10px; height:10px; border-radius:50%; } .slip-card h4 small { margin-left:auto; font-weight:400; color:var(--mut); font-size:.75rem; text-align:right; }
+.slip-card ul { list-style:none; margin:0; padding:0; font-variant-numeric:tabular-nums; }
+.slip-card li { display:flex; justify-content:space-between; gap:12px; padding:7px 0; border-bottom:1px dashed var(--line); }
+.slip-card li span { color:var(--mut); } .slip-card li b { font-weight:500; }
+.slip-sum { display:flex; justify-content:space-between; gap:12px; padding-top:10px; font-weight:600; font-variant-numeric:tabular-nums; }
+.slip-emp { background:#EEF2FF; }
 @media print {
   body * { visibility:hidden; }
   .printable, .printable * { visibility:visible; }
-  .printable { position:absolute; left:0; top:0; width:100%; border:0; }
-  .printable summary::after { display:none; }
+  .printable { position:absolute; left:0; top:0; width:100%; border:0; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
 }
