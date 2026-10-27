@@ -6,7 +6,7 @@ import { BANDS, RELIEF, bonusTax, fmt, gratuity, GRATUITY_MIN_YEARS, marginalRat
 
 type Tab = 'salary' | 'increment' | 'bonus' | 'gratuity';
 const TABS: { id: Tab; label: string }[] = [
-  { id: 'salary', label: 'Take-home pay' },
+  { id: 'salary', label: 'Take home pay' },
   { id: 'increment', label: 'Pay rise' },
   { id: 'bonus', label: 'Bonus tax' },
   { id: 'gratuity', label: 'Gratuity' },
@@ -63,7 +63,7 @@ export default function Calculator() {
   const g = gratuity(gSalary, years);
 
   const slices: Slice[] = [
-    { label: 'Take-home', value: p.net, color: 'var(--teal)' },
+    { label: 'Take home', value: p.net, color: 'var(--teal)' },
     { label: 'Income tax', value: p.apit, color: 'var(--coral)' },
     { label: 'Employee EPF', value: p.epfEmployee, color: 'var(--blue)' },
     { label: 'Stamp duty and other', value: p.stamp + p.otherDeductions, color: 'var(--gold)' },
@@ -86,8 +86,8 @@ export default function Calculator() {
             {tab === 'salary' ? (
               <>
                 <Segmented label="Which amount do you know?" value={mode} onChange={setMode}
-                  options={[{ value: 'gross', label: 'I know my gross' }, { value: 'net', label: 'I know my take-home' }]} />
-                <AmountField label={mode === 'gross' ? 'Monthly gross salary' : 'Monthly take-home'} value={salary}
+                  options={[{ value: 'gross', label: 'I know my gross' }, { value: 'net', label: 'I know my take home' }]} />
+                <AmountField label={mode === 'gross' ? 'Monthly gross salary' : 'Monthly take home'} value={salary}
                   onChange={setSalary} max={1000000} presets={[100000, 150000, 200000, 300000, 500000]} />
                 <details className="adv">
                   <summary>Allowances and deductions</summary>
@@ -104,7 +104,7 @@ export default function Calculator() {
               </>
             ) : (
               <>
-                <p className="hint">Using your gross of {rs(gross)} from the Take-home pay tab.</p>
+                <p className="hint">Using your gross of {rs(gross)} from the Take home pay tab.</p>
                 <RangeField label="Pay rise" value={incPct} onChange={setIncPct} max={50} step={0.5} suffix="%" />
               </>
             )}
@@ -116,13 +116,13 @@ export default function Calculator() {
             <div className="hero-res">
               <Donut slices={slices} total={p.gross} center={`${p.gross ? Math.round((p.net / p.gross) * 100) : 0}%`} caption="kept" />
               <div>
-                <span className="kicker">Your take-home each month</span>
+                <span className="kicker">Your take home each month</span>
                 <div className="big" aria-live="polite">{rs(p.net)}</div>
                 <Legend slices={slices} fmt={fmt} />
               </div>
             </div>
             <div className="stats">
-              <Stat label="Take-home each year" value={rs(p.net * 12)} tone="teal" />
+              <Stat label="Take home each year" value={rs(p.net * 12)} tone="teal" />
               <Stat label="Tax each year" value={rs(p.apit * 12)} tone="coral" />
               <Stat label="Employer pays on top" value={rs(p.epfEmployer + p.etfEmployer)} tone="blue" />
             </div>
@@ -139,7 +139,7 @@ export default function Calculator() {
                   <tr><td>Stamp duty</td><td>{fmt(p.stamp)}</td></tr>
                   <tr><td>Other deductions</td><td>{fmt(p.otherDeductions)}</td></tr>
                   <tr className="tot"><td>Total deductions</td><td>{fmt(p.totalDeductions)}</td></tr>
-                  <tr className="net"><td>Take-home pay</td><td>{fmt(p.net)}</td></tr>
+                  <tr className="net"><td>Take home pay</td><td>{fmt(p.net)}</td></tr>
                   <tr className="emp"><td>Employer EPF at 12%</td><td>{fmt(p.epfEmployer)}</td></tr>
                   <tr className="emp"><td>Employer ETF at 3%</td><td>{fmt(p.etfEmployer)}</td></tr>
                 </tbody>
@@ -151,7 +151,7 @@ export default function Calculator() {
 
         {tab === 'increment' && (
           <div className="results">
-            <span className="kicker">Extra take-home each month</span>
+            <span className="kicker">Extra take home each month</span>
             <div className="big">{rs(extraNet)}</div>
             <div className="bars" role="img" aria-label={`You keep ${extraGross ? Math.round((extraNet / extraGross) * 100) : 0}% of the raise`}>
               <i className="keep" style={{ width: `${extraGross ? (extraNet / extraGross) * 100 : 0}%` }} />
@@ -161,7 +161,7 @@ export default function Calculator() {
             <div className="stats">
               <Stat label="New gross" value={rs(raised.gross)} tone="blue" />
               <Stat label="Extra each year" value={rs(extraNet * 12)} tone="teal" />
-              <Stat label="New take-home" value={rs(raised.net)} tone="gold" />
+              <Stat label="New take home" value={rs(raised.net)} tone="gold" />
             </div>
           </div>
         )}

@@ -7,8 +7,8 @@ const serif = Newsreader({ subsets: ['latin'], variable: '--font-serif', display
 const sans = Instrument_Sans({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
 
 export const metadata: Metadata = {
-  title: `${SITE_NAME} – Sri Lanka Salary & Take-home Calculator 2026/27`,
-  description: 'Convert gross salary to net take-home in Sri Lanka: APIT, EPF, ETF, stamp duty, payslip, bonus tax, gratuity and increment calculators.',
+  title: `${SITE_NAME} – Sri Lanka Salary & Take home Calculator 2026/27`,
+  description: 'Convert gross salary to net take home in Sri Lanka: APIT, EPF, ETF, stamp duty, payslip, bonus tax, gratuity and increment calculators.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

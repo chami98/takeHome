@@ -14,7 +14,7 @@ function rows() {
 const FAQ = [
   ['How much salary is tax-free?', 'Up to Rs. 150,000 a month. Income tax starts on the amount above that.'],
   ['How much EPF is taken from my pay?', 'You pay 8% of your basic salary and your employer adds 12%. Your employer also pays 3% into ETF. You pay nothing towards ETF.'],
-  ['What is the difference between basic, gross and take-home?', 'Gross is basic salary plus allowances. Take-home is gross minus income tax, your EPF, stamp duty and any other deductions.'],
+  ['What is the difference between basic, gross and take home?', 'Gross is basic salary plus allowances. Take home is gross minus income tax, your EPF, stamp duty and any other deductions.'],
   ['Is my data sent anywhere?', 'No. Every calculation runs in your browser, and nothing you type leaves your device.'],
 ];
 
