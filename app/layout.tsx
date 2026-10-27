@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <span className="privacy">Nothing you type leaves this device</span>
         </header>
         {children}
-        <footer>Estimates only – verify with the Inland Revenue Department and your payroll team.</footer>
+        <footer>Estimates only – verify with the Inland Revenue Department and your payroll team. Built by Chamikara Mendis.</footer>
       </body>
     </html>
   );
