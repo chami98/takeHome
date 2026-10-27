@@ -194,7 +194,7 @@ export default function Calculator() {
               </p>
               <div className="stats">
                 <Stat label="Completed years" value={String(g.completed)} tone="blue" />
-                <Stat label="Pay per year of service" value={rs((gSalary / 30) * 14)} tone="teal" />
+                <Stat label="Pay per year of service" value={rs(gSalary / 2)} tone="teal" />
               </div>
             </div>
           </>
