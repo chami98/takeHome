@@ -5,12 +5,13 @@ import { Payslip } from './Payslip';
 import { AmountField, Donut, Legend, RangeField, Segmented, Stat, Switch, type Slice } from './ui';
 import { BANDS, RELIEF, bonusTax, fmt, gratuity, GRATUITY_MIN_YEARS, marginalRate, netToGross, payslip } from '@/lib/calc';
 
-type Tab = 'salary' | 'increment' | 'bonus' | 'gratuity';
+type Tab = 'salary' | 'increment' | 'bonus' | 'gratuity' | 'compare';
 const TABS: { id: Tab; label: string }[] = [
   { id: 'salary', label: 'Take home pay' },
   { id: 'increment', label: 'Pay rise' },
   { id: 'bonus', label: 'Bonus tax' },
   { id: 'gratuity', label: 'Gratuity' },
+  { id: 'compare', label: 'Compare offers' },
 ];
 const rs = (n: number) => `Rs. ${fmt(n)}`;
 const SCALE_MAX = 450000;
@@ -48,6 +49,10 @@ export default function Calculator() {
   const [bonus, setBonus] = useState(100000);
   const [gSalary, setGSalary] = useState(100000);
   const [years, setYears] = useState(10);
+  const [aGross, setAGross] = useState(200000);
+  const [aBasic, setABasic] = useState(0);
+  const [cGross, setCGross] = useState(250000);
+  const [cBasic, setCBasic] = useState(0);
 
   // EPF and ETF come from basic; tax comes from gross. Allowances are whatever gross has above basic.
   const build = (gross: number, basicPay: number) =>
@@ -61,6 +66,9 @@ export default function Calculator() {
   const extraGross = raised.gross - p.gross;
   const extraNet = raised.net - p.net;
   const b = bonusTax(bSalary, bonus);
+  const offerA = build(aGross, aBasic ? Math.min(aBasic, aGross) : aGross);
+  const offerB = build(cGross, cBasic ? Math.min(cBasic, cGross) : cGross);
+  const netGap = offerB.net - offerA.net;
   const g = gratuity(gSalary, years);
 
   const slices: Slice[] = [
@@ -196,6 +204,51 @@ export default function Calculator() {
                 <Stat label="Completed years" value={String(g.completed)} tone="blue" />
                 <Stat label="Pay per year of service" value={rs(gSalary / 2)} tone="teal" />
               </div>
+            </div>
+          </>
+        )}
+
+        {tab === 'compare' && (
+          <>
+            <div className="inputs">
+              <h3 className="offer-h"><i className="dot-a" />Offer A</h3>
+              <AmountField label="Monthly gross salary" value={aGross} onChange={setAGross} max={1000000} />
+              <AmountField label="Basic salary (optional)" value={aBasic} onChange={setABasic} max={1000000} />
+              <h3 className="offer-h"><i className="dot-b" />Offer B</h3>
+              <AmountField label="Monthly gross salary" value={cGross} onChange={setCGross} max={1000000} />
+              <AmountField label="Basic salary (optional)" value={cBasic} onChange={setCBasic} max={1000000} />
+              <p className="hint">Leave basic empty to treat the whole gross as basic. Stamp duty of Rs. 25 is included for both offers.</p>
+            </div>
+            <div className="results">
+              <span className="kicker">
+                {netGap === 0 ? 'Both offers take home the same each month' : `Offer ${netGap > 0 ? 'B' : 'A'} takes home more each month`}
+              </span>
+              <div className="big" aria-live="polite">{netGap === 0 ? rs(0) : `+ ${rs(Math.abs(netGap))}`}</div>
+              <p className="hint">
+                {netGap === 0 ? 'No difference in take home pay.' : `That is ${rs(Math.abs(netGap) * 12)} more every year.`}
+              </p>
+              <div className="cmp" role="table" aria-label="Offer A compared with offer B">
+                <div className="cmp-row cmp-head" role="row">
+                  <span role="columnheader" />
+                  <b role="columnheader"><i className="dot-a" />A</b>
+                  <b role="columnheader"><i className="dot-b" />B</b>
+                </div>
+                {([
+                  ['Gross salary', offerA.gross, offerB.gross, true],
+                  ['Income tax (APIT)', offerA.apit, offerB.apit, false],
+                  ['Employee EPF (8%)', offerA.epfEmployee, offerB.epfEmployee, null],
+                  ['Take home each month', offerA.net, offerB.net, true],
+                  ['Take home each year', offerA.net * 12, offerB.net * 12, true],
+                  ['Employer EPF and ETF', offerA.epfEmployer + offerA.etfEmployer, offerB.epfEmployer + offerB.etfEmployer, true],
+                ] as [string, number, number, boolean | null][]).map(([label, a, c, higherIsBetter], i) => (
+                  <div key={label} className={`cmp-row${i === 3 ? ' cmp-key' : ''}`} role="row">
+                    <span role="rowheader">{label}</span>
+                    <b role="cell" className={higherIsBetter !== null && a !== c && (a > c) === higherIsBetter ? 'win' : ''}>{fmt(a)}</b>
+                    <b role="cell" className={higherIsBetter !== null && a !== c && (c > a) === higherIsBetter ? 'win' : ''}>{fmt(c)}</b>
+                  </div>
+                ))}
+              </div>
+              <p className="hint">Green marks the better figure for you. Employee EPF is not marked because it is savings you keep, not a cost.</p>
             </div>
           </>
         )}
