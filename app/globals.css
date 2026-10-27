@@ -29,7 +29,7 @@ main { padding-bottom:72px; }
 .body { display:grid; grid-template-columns:minmax(0,5fr) minmax(0,6fr); }
 .inputs { padding:28px; border-right:1px solid var(--line); position:sticky; top:0; align-self:start; }
 .results { padding:28px; background:linear-gradient(var(--sheet),var(--sheet)); }
-@media (max-width:860px){ .body{grid-template-columns:1fr;} .inputs{position:static;border-right:0;border-bottom:1px solid var(--line);} .panel{margin-top:-72px;} .privacy{display:none;} }
+@media (max-width:860px){ .body{grid-template-columns:minmax(0,1fr);} .inputs{position:static;border-right:0;border-bottom:1px solid var(--line);} .panel{margin-top:-72px;} .privacy{display:none;} }
 
 /* form components */
 .seg { display:flex; padding:4px; background:var(--track); border-radius:12px; margin-bottom:22px; }
@@ -122,6 +122,30 @@ footer { text-align:center; color:var(--mut); font-size:.875rem; padding:24px; b
 .slip-card li span { color:var(--mut); } .slip-card li b { font-weight:500; }
 .slip-sum { display:flex; justify-content:space-between; gap:12px; padding-top:10px; font-weight:600; font-variant-numeric:tabular-nums; }
 .slip-emp { background:#EEF2FF; }
+/* small phones */
+@media (max-width:560px){
+  .wrap { padding:0 14px; }
+  .top { flex-wrap:wrap; gap:6px 16px; padding:12px 16px; }
+  .logo { font-size:1.2rem; }
+  .nav { gap:16px; margin-left:auto; font-size:.9rem; } .nav a { white-space:nowrap; }
+  .hero { padding:24px 0 100px; } .hero p { font-size:1rem; }
+  .panel { margin-top:-72px; border-radius:16px; }
+  .tabs { padding:8px 8px 0; } .tabs button { padding:10px 10px; font-size:.875rem; }
+  .inputs, .results { padding:18px 16px; }
+  .money input { font-size:1.25rem; }
+  .hero-res { flex-direction:column; align-items:stretch; gap:14px; } .hero-res > div:last-child { min-width:0; width:100%; } .donut { align-self:center; }
+  .donut { width:132px; height:132px; }
+  .big { font-size:clamp(1.75rem,9vw,2.25rem); }
+  .stat { display:flex; justify-content:space-between; align-items:center; gap:10px; padding:11px 14px; }
+  .stat b { margin-top:0; font-size:1rem; }
+  .stats { gap:8px; margin-bottom:18px; }
+  .bands { margin-top:56px; } .bands th, .bands td { padding:10px 14px; }
+  .faq { margin-top:56px; }
+  .slip { padding:16px; gap:14px; } .slip-head h3 { font-size:1.5rem; }
+  .slip-net { flex-direction:column; align-items:flex-start; padding:16px; } .slip-net b { font-size:1.5rem; }
+  .slip-card { padding:14px; } .slip-card h4 { flex-wrap:wrap; } .slip-card h4 small { margin-left:18px; width:100%; text-align:left; }
+}
+
 @media print {
   body * { visibility:hidden; }
   .printable, .printable * { visibility:visible; }
