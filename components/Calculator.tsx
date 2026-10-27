@@ -125,6 +125,7 @@ export default function Calculator() {
               <Stat label="Take home each year" value={rs(p.net * 12)} tone="teal" />
               <Stat label="Tax each year" value={rs(p.apit * 12)} tone="coral" />
               <Stat label="Employer pays on top" value={rs(p.epfEmployer + p.etfEmployer)} tone="blue" />
+              <Stat label="Employer ETF each month (3%)" value={rs(p.etfEmployer)} tone="gold" />
             </div>
             <BandScale taxable={p.gross} />
             <details className="acc printable" open>
