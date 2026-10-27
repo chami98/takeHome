@@ -11,7 +11,7 @@ const TABS: { id: Tab; label: string }[] = [
   { id: 'increment', label: 'Pay rise' },
   { id: 'bonus', label: 'Bonus tax' },
   { id: 'gratuity', label: 'Gratuity' },
-  { id: 'compare', label: 'Compare offers' },
+  { id: 'compare', label: 'Compare' },
 ];
 const rs = (n: number) => `Rs. ${fmt(n)}`;
 const SCALE_MAX = 450000;
@@ -83,7 +83,8 @@ export default function Calculator() {
       <div className="tabs" role="tablist" aria-label="Calculators">
         {TABS.map((t) => (
           <button key={t.id} id={`tab-${t.id}`} role="tab" aria-selected={tab === t.id} aria-controls="tabpanel"
-            className={tab === t.id ? 'on' : ''} onClick={() => setTab(t.id)}>
+            className={tab === t.id ? 'on' : ''}
+            onClick={(e) => { setTab(t.id); e.currentTarget.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' }); }}>
             {t.label}
           </button>
         ))}
@@ -213,10 +214,10 @@ export default function Calculator() {
             <div className="inputs">
               <h3 className="offer-h"><i className="dot-a" />Offer A</h3>
               <AmountField label="Monthly gross salary" value={aGross} onChange={setAGross} max={1000000} />
-              <AmountField label="Basic salary (optional)" value={aBasic} onChange={setABasic} max={1000000} />
+              <AmountField label="Basic salary (optional)" value={aBasic} onChange={setABasic} max={1000000} slider={false} />
               <h3 className="offer-h"><i className="dot-b" />Offer B</h3>
               <AmountField label="Monthly gross salary" value={cGross} onChange={setCGross} max={1000000} />
-              <AmountField label="Basic salary (optional)" value={cBasic} onChange={setCBasic} max={1000000} />
+              <AmountField label="Basic salary (optional)" value={cBasic} onChange={setCBasic} max={1000000} slider={false} />
               <p className="hint">Leave basic empty to treat the whole gross as basic. Stamp duty of Rs. 25 is included for both offers.</p>
             </div>
             <div className="results">

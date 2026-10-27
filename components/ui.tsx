@@ -21,7 +21,7 @@ export function Segmented<T extends string>({ label, value, onChange, options }:
 }
 
 /** Formatted money input with a slider underneath and optional preset chips. */
-export function AmountField({ label, value, onChange, max, step = 5000, presets, suffix = 'LKR' }: {
+export function AmountField({ label, value, onChange, max, step = 5000, presets, suffix = 'LKR', slider = true }: {
   label: string;
   value: number;
   onChange: (v: number) => void;
@@ -29,6 +29,7 @@ export function AmountField({ label, value, onChange, max, step = 5000, presets,
   step?: number;
   presets?: number[];
   suffix?: string;
+  slider?: boolean;
 }) {
   return (
     <div className="field">
@@ -41,9 +42,9 @@ export function AmountField({ label, value, onChange, max, step = 5000, presets,
           <em>{suffix}</em>
         </span>
       </label>
-      <input className="range" type="range" min={0} max={max} step={step} aria-label={`${label} slider`}
+      {slider && <input className="range" type="range" min={0} max={max} step={step} aria-label={`${label} slider`}
         value={Math.min(value, max)} onChange={(e) => onChange(Number(e.target.value))}
-        style={{ ['--p' as string]: `${(Math.min(value, max) / max) * 100}%` }} />
+        style={{ ['--p' as string]: `${(Math.min(value, max) / max) * 100}%` }} />}
       {presets && (
         <div className="chips">
           {presets.map((v) => (

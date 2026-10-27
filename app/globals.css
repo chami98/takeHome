@@ -152,6 +152,7 @@ footer { text-align:center; color:var(--mut); font-size:.875rem; padding:24px; b
   .stats { gap:8px; margin-bottom:18px; }
   .bands { margin-top:56px; } .bands th, .bands td { padding:10px 14px; }
   .faq { margin-top:56px; }
+  .btn-line { display:block; margin:6px auto 0; }
   .slip { padding:16px; gap:14px; } .slip-head h3 { font-size:1.5rem; }
   .slip-net { flex-direction:column; align-items:flex-start; padding:16px; } .slip-net b { font-size:1.5rem; }
   .slip-card { padding:14px; } .slip-card h4 { flex-wrap:wrap; } .slip-card h4 small { margin-left:18px; width:100%; text-align:left; }
@@ -167,7 +168,7 @@ footer { text-align:center; color:var(--mut); font-size:.875rem; padding:24px; b
 .cmp-head { background:var(--paper); } .cmp-head b { font-weight:600; }
 .cmp-key { background:var(--paper); } .cmp-key span { color:var(--ink); font-weight:600; } .cmp-key b { font-weight:600; }
 .cmp-row b.win { color:var(--teal); font-weight:700; }
-@media (max-width:560px){ .cmp-row { padding:10px 12px; gap:6px; font-size:.875rem; } }
+@media (max-width:560px){ .cmp-row { grid-template-columns:minmax(0,.85fr) minmax(0,1.1fr) minmax(0,1.1fr); padding:10px 12px; gap:8px; font-size:.8125rem; } }
 
 @media print {
   body * { visibility:hidden; }
