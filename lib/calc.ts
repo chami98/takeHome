@@ -77,12 +77,12 @@ export function bonusTax(monthlyGross: number, bonus: number) {
   return { tax, net: r2(bonus - tax), effectiveRate: bonus ? tax / bonus : 0 };
 }
 
-/** Payment of Gratuity Act: 14 days' wage per completed year, minimum 5 years' service. */
+/** Payment of Gratuity Act: half a month's salary per completed year, minimum 5 years' service. */
 export const GRATUITY_MIN_YEARS = 5;
 export function gratuity(lastMonthlySalary: number, years: number) {
   const completed = Math.floor(years);
   const eligible = completed >= GRATUITY_MIN_YEARS;
-  return { completed, eligible, amount: eligible ? r2((lastMonthlySalary / 30) * 14 * completed) : 0 };
+  return { completed, eligible, amount: eligible ? r2((lastMonthlySalary / 2) * completed) : 0 };
 }
 
 /** Rate charged on the next rupee of taxable income. */

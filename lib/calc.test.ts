@@ -26,7 +26,7 @@ test('bonus taxed at marginal rates', () => {
 });
 test('gratuity needs 5 completed years', () => {
   assert.equal(gratuity(90000, 4.9).amount, 0);
-  assert.equal(gratuity(90000, 10).amount, 420000);
+  assert.equal(gratuity(90000, 10).amount, 450000);
 });
 
 test('netToGross honours allowance share, other deductions and stamp', () => {

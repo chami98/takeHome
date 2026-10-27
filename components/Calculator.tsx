@@ -195,7 +195,7 @@ export default function Calculator() {
             <div className="inputs">
               <AmountField label="Last monthly salary (basic plus cost of living allowance)" value={gSalary} onChange={setGSalary} max={1000000} />
               <RangeField label="Years of service" value={years} onChange={setYears} max={40} step={0.5} suffix="years" />
-              <p className="hint">Under the Payment of Gratuity Act you earn 14 days of pay for each completed year, once you have worked {GRATUITY_MIN_YEARS} years.</p>
+              <p className="hint">Under the Payment of Gratuity Act you earn half a month's salary for each completed year, once you have worked {GRATUITY_MIN_YEARS} years.</p>
             </div>
             <div className="results">
               <span className="kicker">{g.eligible ? 'Your gratuity' : 'Not eligible yet'}</span>
