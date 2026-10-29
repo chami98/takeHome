@@ -11,6 +11,8 @@ export const EPF_EMPLOYEE = 0.08;
 export const EPF_EMPLOYER = 0.12;
 export const ETF_EMPLOYER = 0.03;
 export const STAMP_DUTY = 25;
+export const EPF_INTEREST_RATE = 0.1075; // 10.75% p.a. declared by Central Bank of Sri Lanka
+export const ETF_INTEREST_RATE = 0.095;  // 9.5% p.a. dividend declared by ETF Board
 
 export function apit(taxable: number) {
   let left = Math.max(0, taxable - RELIEF);
@@ -83,6 +85,16 @@ export function gratuity(lastMonthlySalary: number, years: number) {
   const completed = Math.floor(years);
   const eligible = completed >= GRATUITY_MIN_YEARS;
   return { completed, eligible, amount: eligible ? r2((lastMonthlySalary / 2) * completed) : 0 };
+}
+
+/**
+ * Future value of equal end-of-year contributions compounded at a fixed annual rate.
+ * FV = C × ((1 + r)^n − 1) / r
+ */
+export function futureValue(annualContribution: number, rate: number, years: number): number {
+  if (years <= 0) return 0;
+  if (rate === 0) return r2(annualContribution * years);
+  return r2(annualContribution * ((Math.pow(1 + rate, years) - 1) / rate));
 }
 
 /** Rate charged on the next rupee of taxable income. */

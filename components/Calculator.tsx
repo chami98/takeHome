@@ -3,15 +3,16 @@
 import { useState } from 'react';
 import { Payslip, downloadPayslip } from './Payslip';
 import { AmountField, Donut, Legend, RangeField, Segmented, Stat, Switch, type Slice } from './ui';
-import { BANDS, RELIEF, bonusTax, fmt, gratuity, GRATUITY_MIN_YEARS, marginalRate, netToGross, payslip } from '@/lib/calc';
+import { BANDS, RELIEF, EPF_INTEREST_RATE, ETF_INTEREST_RATE, bonusTax, fmt, futureValue, gratuity, GRATUITY_MIN_YEARS, marginalRate, netToGross, payslip } from '@/lib/calc';
 
-type Tab = 'salary' | 'increment' | 'bonus' | 'gratuity' | 'compare';
+type Tab = 'salary' | 'increment' | 'bonus' | 'gratuity' | 'compare' | 'annual';
 const TABS: { id: Tab; label: string }[] = [
   { id: 'salary', label: 'Take home pay' },
   { id: 'increment', label: 'Pay rise' },
   { id: 'bonus', label: 'Bonus tax' },
   { id: 'gratuity', label: 'Gratuity' },
   { id: 'compare', label: 'Compare' },
+  { id: 'annual', label: 'Annual summary' },
 ];
 const rs = (n: number) => `Rs. ${fmt(n)}`;
 const SCALE_MAX = 450000;
@@ -49,6 +50,7 @@ export default function Calculator() {
   const [bonus, setBonus] = useState(100000);
   const [gSalary, setGSalary] = useState(100000);
   const [years, setYears] = useState(10);
+  const [epfYears, setEpfYears] = useState(10);
   const [aGross, setAGross] = useState(200000);
   const [aBasic, setABasic] = useState(0);
   const [cGross, setCGross] = useState(250000);
@@ -71,6 +73,19 @@ export default function Calculator() {
   const netGap = offerB.net - offerA.net;
   const g = gratuity(gSalary, years);
 
+  const annualGross = p.gross * 12;
+  const annualNet = p.net * 12;
+  const annualTax = p.apit * 12;
+  const effectiveRate = annualGross ? annualTax / annualGross : 0;
+  const epfEmployeeYear = p.epfEmployee * 12;
+  const epfEmployerYear = p.epfEmployer * 12;
+  const etfYear = p.etfEmployer * 12;
+  const epfTotalYear = epfEmployeeYear + epfEmployerYear;
+  const epfAccEmployee = futureValue(epfEmployeeYear, EPF_INTEREST_RATE, epfYears);
+  const epfAccEmployer = futureValue(epfEmployerYear, EPF_INTEREST_RATE, epfYears);
+  const epfAccTotal = futureValue(epfTotalYear, EPF_INTEREST_RATE, epfYears);
+  const etfAccTotal = futureValue(etfYear, ETF_INTEREST_RATE, epfYears);
+
   const slices: Slice[] = [
     { label: 'Take home', value: p.net, color: 'var(--teal)' },
     { label: 'Income tax', value: p.apit, color: 'var(--coral)' },
@@ -91,7 +106,7 @@ export default function Calculator() {
       </div>
 
       <div className="body" id="tabpanel" role="tabpanel" aria-labelledby={`tab-${tab}`}>
-        {(tab === 'salary' || tab === 'increment') && (
+        {(tab === 'salary' || tab === 'increment' || tab === 'annual') && (
           <div className="inputs">
             {tab === 'salary' ? (
               <>
@@ -112,10 +127,15 @@ export default function Calculator() {
                   <p className="hint">EPF and ETF are worked out on your basic salary. Income tax is worked out on your gross salary.</p>
                 </details>
               </>
-            ) : (
+            ) : tab === 'increment' ? (
               <>
                 <p className="hint">Using your gross of {rs(gross)} from the Take home pay tab.</p>
                 <RangeField label="Pay rise" value={incPct} onChange={setIncPct} max={50} step={0.5} suffix="%" />
+              </>
+            ) : (
+              <>
+                <p className="hint">Using your monthly gross of {rs(gross)} from the Take home pay tab.</p>
+                <RangeField label="Years at this salary" value={epfYears} onChange={setEpfYears} max={40} step={1} suffix="yrs" />
               </>
             )}
           </div>
@@ -253,6 +273,41 @@ export default function Calculator() {
             </div>
           </>
         )}
+        {tab === 'annual' && (
+          <div className="results">
+            <span className="kicker">Take home over 12 months</span>
+            <div className="big">{rs(annualNet)}</div>
+            <div className="bars" role="img" aria-label={`${(effectiveRate * 100).toFixed(1)}% of gross goes to income tax`}>
+              <i className="keep" style={{ width: `${annualGross ? (annualNet / annualGross) * 100 : 0}%` }} />
+              <i className="epf" style={{ width: `${annualGross ? (epfEmployeeYear / annualGross) * 100 : 0}%` }} />
+              <i className="lost" style={{ width: `${annualGross ? (annualTax / annualGross) * 100 : 0}%` }} />
+            </div>
+            <p className="hint ann-legend">
+              <i style={{ background: 'var(--teal)' }} />take home &nbsp;
+              <i style={{ background: 'var(--blue)' }} />EPF &nbsp;
+              <i style={{ background: 'var(--coral)' }} />tax
+            </p>
+            <div className="stats">
+              <Stat label="Total income tax" value={rs(annualTax)} tone="coral" />
+              <Stat label="Effective tax rate" value={`${(effectiveRate * 100).toFixed(1)}%`} tone="gold" />
+              <Stat label="Your EPF contributions" value={rs(epfEmployeeYear)} tone="blue" />
+              <Stat label="Employer EPF + ETF" value={rs(epfEmployerYear + etfYear)} tone="teal" />
+            </div>
+            <div className="ann-proj">
+              <h4>Projected EPF balance after {epfYears} {epfYears === 1 ? 'year' : 'years'}</h4>
+              <table className="ann-table">
+                <tbody>
+                  <tr><td>Your contributions (8% of basic)</td><td>{rs(epfAccEmployee)}</td></tr>
+                  <tr><td>Employer contributions (12% of basic)</td><td>{rs(epfAccEmployer)}</td></tr>
+                  <tr className="tot"><td>Combined EPF balance</td><td>{rs(epfAccTotal)}</td></tr>
+                  <tr className="muted"><td>Employer ETF — separate fund (3%, 9.5% p.a.)</td><td>{rs(etfAccTotal)}</td></tr>
+                </tbody>
+              </table>
+              <p className="hint">Projected at EPF 10.75% p.a. and ETF 9.5% p.a. as declared for the latest financial year. Assumes the same salary throughout.</p>
+            </div>
+          </div>
+        )}
+
       </div>
     </div>
   );

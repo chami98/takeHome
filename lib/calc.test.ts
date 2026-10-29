@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { marginalRate, apit, payslip, netToGross, bonusTax, gratuity } from './calc.ts';
+import { marginalRate, apit, payslip, netToGross, bonusTax, gratuity, futureValue, EPF_INTEREST_RATE, ETF_INTEREST_RATE } from './calc.ts';
 
 test('no tax at or below relief', () => assert.equal(apit(150000), 0));
 test('Rs 200k worked example from the reference calculator', () => {
@@ -52,4 +52,17 @@ test('netToGross with fixed basic round-trips', () => {
   const g = netToGross(185000, { basic: 100000 });
   const p = payslip({ basic: 100000, allowances: g - 100000 });
   assert.ok(Math.abs(p.net - 185000) < 0.05);
+});
+
+test('futureValue: zero years returns 0', () => assert.equal(futureValue(12000, EPF_INTEREST_RATE, 0), 0));
+test('futureValue: one year equals the contribution', () => assert.equal(futureValue(12000, EPF_INTEREST_RATE, 1), 12000));
+test('futureValue: two years with EPF rate', () => {
+  // year-1 contribution grows by EPF rate, year-2 contribution added at year end
+  const expected = Math.round((12000 * 1.1075 + 12000) * 100) / 100;
+  assert.equal(futureValue(12000, EPF_INTEREST_RATE, 2), expected);
+});
+test('futureValue: zero rate falls back to simple sum', () => assert.equal(futureValue(5000, 0, 4), 20000));
+test('EPF and ETF interest rates are positive and under 20%', () => {
+  assert.ok(EPF_INTEREST_RATE > 0 && EPF_INTEREST_RATE < 0.2);
+  assert.ok(ETF_INTEREST_RATE > 0 && ETF_INTEREST_RATE < 0.2);
 });

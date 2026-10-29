@@ -85,7 +85,7 @@ main { padding-bottom:72px; }
 .stat span { display:block; font-size:.8125rem; color:var(--mut); } .stat b { display:block; white-space:nowrap; font:600 1.0625rem var(--sans); font-variant-numeric:tabular-nums; margin-top:2px; }
 .stat.teal { border-color:var(--teal); } .stat.coral { border-color:var(--coral); } .stat.blue { border-color:var(--blue); } .stat.gold { border-color:var(--gold); }
 .bars, .meter { display:flex; height:14px; border-radius:99px; overflow:hidden; background:var(--track); margin-bottom:10px; }
-.bars .keep { background:var(--teal); } .bars .lost { background:var(--coral); } .meter i { background:var(--gold); }
+.bars .keep { background:var(--teal); } .bars .lost { background:var(--coral); } .bars .epf { background:var(--blue); } .meter i { background:var(--gold); }
 
 .scale { margin-bottom:22px; } .scale p { margin:8px 0 0; font-size:.875rem; color:var(--mut); }
 .scale-bar { position:relative; display:flex; height:30px; border-radius:8px; overflow:visible; }
@@ -157,6 +157,17 @@ footer { text-align:center; color:var(--mut); font-size:.875rem; padding:24px; b
   .slip-net { flex-direction:column; align-items:flex-start; padding:16px; } .slip-net b { font-size:1.5rem; }
   .slip-card { padding:14px; } .slip-card h4 { flex-wrap:wrap; } .slip-card h4 small { margin-left:18px; width:100%; text-align:left; }
 }
+
+/* annual summary */
+.ann-legend { display:flex; align-items:center; gap:4px; flex-wrap:wrap; margin-bottom:18px; }
+.ann-legend i { display:inline-block; width:10px; height:10px; border-radius:3px; margin-right:4px; }
+.ann-proj { margin-top:22px; padding-top:20px; border-top:1px solid var(--line); }
+.ann-proj h4 { margin:0 0 4px; font:600 1rem var(--sans); }
+.ann-table { width:100%; border-collapse:collapse; font-variant-numeric:tabular-nums; margin:12px 0 10px; }
+.ann-table td { padding:9px 0; border-bottom:1px solid var(--track); font-size:.9375rem; }
+.ann-table td:last-child { text-align:right; font-weight:500; }
+.ann-table .tot td { font-weight:700; border-top:2px solid var(--line); border-bottom:0; color:var(--teal); font-size:1.0625rem; }
+.ann-table .muted td { color:var(--mut); font-size:.875rem; border-bottom:0; }
 
 /* compare offers */
 .offer-h { display:flex; align-items:center; gap:8px; margin:0 0 10px; font:600 1rem var(--sans); } .offer-h:not(:first-child) { margin-top:8px; padding-top:18px; border-top:1px solid var(--line); }
