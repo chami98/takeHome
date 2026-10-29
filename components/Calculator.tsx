@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Payslip } from './Payslip';
+import { Payslip, downloadPayslip } from './Payslip';
 import { AmountField, Donut, Legend, RangeField, Segmented, Stat, Switch, type Slice } from './ui';
 import { BANDS, RELIEF, bonusTax, fmt, gratuity, GRATUITY_MIN_YEARS, marginalRate, netToGross, payslip } from '@/lib/calc';
 
@@ -139,7 +139,7 @@ export default function Calculator() {
             </div>
             <BandScale taxable={p.gross} />
             <Payslip p={p} />
-            <button className="btn-line" onClick={() => window.print()}>Print payslip</button>
+            <button className="btn-line" onClick={downloadPayslip}>Download payslip</button>
           </div>
         )}
 

@@ -3,6 +3,20 @@ import { SITE_NAME } from '@/lib/site';
 
 type Slip = ReturnType<typeof payslip>;
 
+export async function downloadPayslip() {
+  const el = document.querySelector<HTMLElement>('.slip.printable');
+  if (!el) return;
+  const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
+    import('html2canvas'),
+    import('jspdf'),
+  ]);
+  const canvas = await html2canvas(el, { scale: 2, useCORS: true });
+  const imgData = canvas.toDataURL('image/png');
+  const pdf = new jsPDF({ orientation: 'portrait', unit: 'px', format: [canvas.width / 2, canvas.height / 2] });
+  pdf.addImage(imgData, 'PNG', 0, 0, canvas.width / 2, canvas.height / 2);
+  pdf.save('payslip.pdf');
+}
+
 const month = new Intl.DateTimeFormat('en-LK', { month: 'long', year: 'numeric' }).format(new Date());
 
 function Line({ label, value, muted }: { label: string; value: number; muted?: boolean }) {
