@@ -118,7 +118,7 @@ footer { border-top:1px solid var(--line); padding:40px 20px 36px; }
 .footer-divider i { width:7px; height:7px; border-radius:50%; background:var(--gold); flex:none; }
 .footer-built { display:flex; flex-direction:column; align-items:center; gap:3px; }
 .footer-by { font-size:.75rem; color:var(--mut); text-transform:uppercase; letter-spacing:.12em; }
-.footer-name { font:500 1.6rem var(--serif); letter-spacing:-.02em; color:var(--ink); }
+.footer-name { font:500 .875rem var(--serif); letter-spacing:.01em; color:var(--ink); }
 
 @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto;} * { transition:none !important; } }
 /* payslip */
