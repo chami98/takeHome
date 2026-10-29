@@ -110,7 +110,15 @@ h2 { font:500 clamp(1.6rem,3.5vw,2.1rem)/1.15 var(--serif); margin:0 0 12px; let
 .bands th, .bands td { padding:12px 18px; text-align:left; border-bottom:1px solid var(--track); } .bands th { background:var(--track); font-size:.875rem; }
 .bands th:last-child, .bands td:last-child { text-align:right; font-weight:600; } .bands tr:last-child td { border-bottom:0; }
 .faq { margin-top:80px; max-width:44rem; } .faq .acc:last-child { border-bottom:1px solid var(--line); }
-footer { text-align:center; color:var(--mut); font-size:.875rem; padding:24px; border-top:1px solid var(--line); }
+footer { border-top:1px solid var(--line); padding:40px 20px 36px; }
+.footer-inner { max-width:1080px; margin:0 auto; display:flex; flex-direction:column; align-items:center; gap:22px; }
+.footer-disclaimer { color:var(--mut); font-size:.8125rem; text-align:center; max-width:56ch; margin:0; }
+.footer-divider { display:flex; align-items:center; gap:14px; width:180px; }
+.footer-divider::before,.footer-divider::after { content:''; flex:1; height:1px; background:var(--line); }
+.footer-divider i { width:7px; height:7px; border-radius:50%; background:var(--gold); flex:none; }
+.footer-built { display:flex; flex-direction:column; align-items:center; gap:3px; }
+.footer-by { font-size:.75rem; color:var(--mut); text-transform:uppercase; letter-spacing:.12em; }
+.footer-name { font:500 1.6rem var(--serif); letter-spacing:-.02em; color:var(--ink); }
 
 @media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto;} * { transition:none !important; } }
 /* payslip */

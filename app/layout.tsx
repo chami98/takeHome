@@ -33,7 +33,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <ThemeToggle />
         </header>
         {children}
-        <footer>Estimates only – verify with the Inland Revenue Department and your payroll team. Built by Chamikara Mendis.</footer>
+        <footer>
+          <div className="footer-inner">
+            <p className="footer-disclaimer">Estimates only – verify with the Inland Revenue Department and your payroll team.</p>
+            <div className="footer-divider" aria-hidden="true"><i /></div>
+            <div className="footer-built">
+              <span className="footer-by">Built by</span>
+              <span className="footer-name">Chamikara Mendis</span>
+            </div>
+          </div>
+        </footer>
       </body>
     </html>
   );
