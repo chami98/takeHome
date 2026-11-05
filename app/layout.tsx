@@ -7,9 +7,15 @@ import './globals.css';
 const serif = Newsreader({ subsets: ['latin'], variable: '--font-serif', display: 'swap' });
 const sans = Instrument_Sans({ subsets: ['latin'], variable: '--font-sans', display: 'swap' });
 
+const TITLE = `${SITE_NAME} – Sri Lanka Salary & Take home Calculator 2026/27`;
+const DESCRIPTION = 'Convert gross salary to net take home in Sri Lanka: APIT, EPF, ETF, stamp duty, payslip, bonus tax, gratuity and increment calculators.';
+
 export const metadata: Metadata = {
-  title: `${SITE_NAME} – Sri Lanka Salary & Take home Calculator 2026/27`,
-  description: 'Convert gross salary to net take home in Sri Lanka: APIT, EPF, ETF, stamp duty, payslip, bonus tax, gratuity and increment calculators.',
+  metadataBase: new URL('https://takehome-jet.vercel.app'),
+  title: TITLE,
+  description: DESCRIPTION,
+  openGraph: { title: TITLE, description: DESCRIPTION, siteName: SITE_NAME, type: 'website', locale: 'en_LK' },
+  twitter: { card: 'summary_large_image', title: TITLE, description: DESCRIPTION },
 };
 
 // Runs before paint so the saved theme (dark by default) is applied without a flash.
